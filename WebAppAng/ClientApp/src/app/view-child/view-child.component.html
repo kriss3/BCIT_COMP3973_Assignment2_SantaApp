@@ -1,0 +1,64 @@
+<div class="col-md-6">
+  <h2 class="text-center">{{childFormLabel}}</h2>
+  <form [formGroup]="viewForm" novalidate class="form">
+
+    <div class="form-group">
+      <label for="firstName">First Name:</label>
+      <input readonly="readonly" formControlName="firstName" placeholder="First Name" name="firstName" class="form-control" id="firstName">
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Last Name:</label>
+      <input readonly="readonly" formControlName="lastName" placeholder="Last Name" name="lastName" class="form-control" id="lastName">
+    </div>
+
+    <div class="form-group">
+      <label for="birthDate">Birthdate:</label>
+      <input readonly="readonly" type="datetime-local" formControlName="birthDate" placeholder="Birthdate" name="birhtdate" class="form-control" id="birthDate">
+    </div>
+
+    <div class="form-group">
+      <label for="street">Street:</label>
+      <input readonly="readonly" formControlName="street" placeholder="Street" name="street" class="form-control" id="street">
+    </div>
+
+    <div class="form-group">
+      <label for="city">City:</label>
+      <input readonly="readonly" formControlName="city" placeholder="City" name="city" class="form-control" id="city">
+    </div>
+
+    <div class="form-group">
+      <label for="province">Province:</label>
+      <input readonly="readonly" formControlName="province" placeholder="Province" name="province" class="form-control" id="province">
+    </div>
+
+    <div class="form-group">
+      <label for="postalCode">Post Code:</label>
+      <input readonly="readonly" formControlName="postalCode" placeholder="Post Code" name="postalCode" class="form-control" id="postalCode">
+    </div>
+
+    <div class="form-group">
+      <label for="country">Country:</label>
+      <input readonly="readonly" formControlName="country" placeholder="Country" name="country" class="form-control" id="country">
+    </div>
+
+    <div class="form-group">
+      <label for="latitude">Latitude:</label>
+      <input readonly="readonly" formControlName="latitude" placeholder="Latitude" name="latitude" class="form-control" id="latitude">
+    </div>
+
+    <div class="form-group">
+      <label for="longitude">Longitude:</label>
+      <input readonly="readonly" formControlName="longitude" placeholder="Longitude" name="longitude" class="form-control" id="longitude">
+    </div>
+
+    <div class="form-group">
+      <label for="longitude">Is Naughty?</label>
+      <input disabled="disabled" type="checkbox" formControlName="longitude" placeholder="Is Naughty" name="isNaughty" class="form-control" id="longitude">
+    </div>
+
+    <button class="btn btn-success" [disabled]='viewForm.invalid' *ngIf="!btnvisibility" (click)="onGetLocation()">Open Location</button>
+
+    <p>Form value: {{ viewForm.value | json }}</p>
+  </form>
+</div>  

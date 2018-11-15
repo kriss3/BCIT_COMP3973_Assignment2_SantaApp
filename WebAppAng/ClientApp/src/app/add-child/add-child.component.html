@@ -1,0 +1,96 @@
+<div class="col-md-6">
+  <h2 class="text-center">{{childFormLabel}}</h2>
+  <form [formGroup]="addForm" novalidate class="form">
+
+    <div class="form-group">
+      <label for="firstName">First Name:</label>
+      <input formControlName="firstName" placeholder="First Name" name="firstName" class="form-control" id="firstName">
+      <div class="alert  alert-danger" *ngIf="addForm.get('firstName').hasError('required') && addForm.get('firstName').touched">
+        Child's  Name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Last Name:</label>
+      <input formControlName="lastName" placeholder="Last Name" name="lastName" class="form-control" id="lastName">
+      <div class="alert  alert-danger" *ngIf="addForm.get('lastName').hasError('required') && addForm.get('lastName').touched">
+        Child's  Last Name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="birthDate">Birthdate:</label>
+      <input type="datetime-local" formControlName="birthDate" placeholder="Birthdate" name="birhtdate" class="form-control" id="birthDate">
+      <div class="alert  alert-danger" *ngIf="addForm.get('birthDate').hasError('required') && addForm.get('birthDate').touched">
+        Child's  Birthdate required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="street">Street:</label>
+      <input formControlName="street" placeholder="Street" name="street" class="form-control" id="street">
+      <div class="alert  alert-danger" *ngIf="addForm.get('street').hasError('required') && addForm.get('street').touched">
+        Street Name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="city">City:</label>
+      <input formControlName="city" placeholder="City" name="city" class="form-control" id="city">
+      <div class="alert  alert-danger" *ngIf="addForm.get('city').hasError('required') && addForm.get('city').touched">
+        City Name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="province">Province:</label>
+      <input formControlName="province" placeholder="Province" name="province" class="form-control" id="province">
+      <div class="alert  alert-danger" *ngIf="addForm.get('province').hasError('required') && addForm.get('province').touched">
+        Province Name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="postalCode">Post Code:</label>
+      <input formControlName="postalCode" placeholder="Post Code" name="postalCode" class="form-control" id="postalCode">
+      <div class="alert  alert-danger" *ngIf="addForm.get('postalCode').hasError('required') && addForm.get('postalCode').touched">
+        Postal Code required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="country">Country:</label>
+      <input formControlName="country" placeholder="Country" name="country" class="form-control" id="country">
+      <div class="alert  alert-danger" *ngIf="addForm.get('country').hasError('required') && addForm.get('country').touched">
+        Country required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="latitude">Latitude:</label>
+      <input formControlName="latitude" placeholder="Latitude" name="latitude" class="form-control" id="latitude">
+      <div class="alert  alert-danger" *ngIf="addForm.get('latitude').hasError('required') && addForm.get('latitude').touched">
+        Latitude value required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="longitude">Longitude:</label>
+      <input formControlName="longitude" placeholder="Longitude" name="longitude" class="form-control" id="longitude">
+      <div class="alert  alert-danger" *ngIf="addForm.get('longitude').hasError('required') && addForm.get('longitude').touched">
+        Longitude value required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="isNaughty">Is Naughty?</label>
+      <input type="checkbox" formControlName="isNaughty" placeholder="Is Naughty" name="isNaughty" class="form-control" id="isNaughty">
+    </div>
+
+    <button class="btn btn-success" [disabled]='addForm.invalid' *ngIf="btnvisibility" (click)="onSubmit()">Save</button>
+    <button class="btn btn-success" [disabled]='addForm.invalid' *ngIf="!btnvisibility" (click)="onUpdate()">Update</button>
+
+    <br/><br/>
+    <p>Form value: {{ addForm.value | json }}</p>
+  </form>
+</div>  
