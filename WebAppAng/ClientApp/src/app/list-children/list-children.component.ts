@@ -12,21 +12,32 @@ import { DataService } from '../shared/dataService';
 export class ListChildrenComponent implements OnInit {
 
   public myClassMessage = "My Message from Children Component";
-  public santaChildren: Child[] = []; 
+  public santaChildren: Child[] = [];
+  public loggedInUser: string;
 
   constructor(private _svc: SantaService, private router: Router, private data: SantaService) { }  
 
   ngOnInit(): void {
-      this.getChildrenPromise(); 
+    this.getChildrenPromise();
+    this.loggedInUser = this.authUser();
   }
 
   public DisplayMessage() {
     this.myClassMessage;
   }
 
+  authUser(): string {
+    let result = '<not authorized>';
+    let myUser = sessionStorage.getItem('username');
+    if (myUser === null || myUser === '') {
+      return result;
+    }
+    return myUser;
+  }
+
   getChildrenPromise(): void {
     this._svc.getChildren()
-      .subscribe(data => this.santaChildren = data);
+      .subscribe(data => this.santaChildren = data)
   }
 
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,9 @@ namespace WebAppAng.Data
 {
     public class DummyData
     {
-        public static void Initialize(IApplicationBuilder app)
+        public static void Initialize(IApplicationBuilder app, SantaDbContext ctx,
+                                                RoleManager<IdentityRole> roleManager,
+                                                UserManager<IdentityUser> userManager)
         {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
@@ -22,9 +25,132 @@ namespace WebAppAng.Data
                 if (context.Children != null && context.Children.Any())
                     return;   // DB has already been seeded
 
-                var children = DummyData.GetChildren().ToArray();
+                var children = GetChildren().ToArray();
                 context.Children.AddRange(children);
+                GetUsersWithRoles(ctx, roleManager, userManager).Wait();
                 context.SaveChanges();
+            }
+        }
+
+        public static async Task GetUsersWithRoles(SantaDbContext context,
+                                                             RoleManager<IdentityRole> roleManager,
+                                                             UserManager<IdentityUser> userManager)
+        {
+            //context.Database.EnsureCreated();
+
+            String adminId1 = "";
+            String adminId2 = "";
+
+            string role1 = "Admin";
+            string role2 = "Child";
+
+            string password = "P@$$w0rd";
+
+            if (await roleManager.FindByNameAsync(role1) == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole(role1));
+            }
+
+            if (await roleManager.FindByNameAsync(role2) == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole(role2));
+            }
+
+            if (await userManager.FindByNameAsync("aa") == null)
+            {
+                var user = new IdentityUser
+                {
+                    UserName = "aa",
+                    Email = "aa@aa.aa"
+                };
+
+                var result = await userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    await userManager.AddPasswordAsync(user, password);
+                    await userManager.AddToRoleAsync(user, role1);
+                }
+                adminId1 = user.Id;
+            }
+
+            if (await userManager.FindByNameAsync("bb") == null)
+            {
+                var user = new IdentityUser
+                {
+                    UserName = "bb",
+                    Email = "bb@bb.bb"
+                };
+
+                var result = await userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    await userManager.AddPasswordAsync(user, password);
+                    await userManager.AddToRoleAsync(user, role1);
+                }
+                adminId2 = user.Id;
+            }
+
+            if (await userManager.FindByNameAsync("mm") == null)
+            {
+                var user = new IdentityUser
+                {
+                    UserName = "mm",
+                    Email = "mm@mm.mm"                };
+
+                var result = await userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    await userManager.AddPasswordAsync(user, password);
+                    await userManager.AddToRoleAsync(user, role2);
+                }
+            }
+
+            if (await userManager.FindByNameAsync("dd") == null)
+            {
+                var user = new IdentityUser
+                {
+                    UserName = "dd",
+                    Email = "dd@dd.dd"
+                };
+
+                var result = await userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    await userManager.AddPasswordAsync(user, password);
+                    await userManager.AddToRoleAsync(user, role2);
+                }
+            }
+
+            if (await userManager.FindByNameAsync("santa") == null)
+            {
+                var user = new IdentityUser
+                {
+                    UserName = "santa",
+                    Email = "santa@np.com"
+                };
+
+                var result = await userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    await userManager.AddPasswordAsync(user, password);
+                    await userManager.AddToRoleAsync(user, role1);
+                }
+            }
+
+            if (await userManager.FindByNameAsync("tim") == null)
+            {
+                var user = new IdentityUser
+                {
+                    UserName = "tim",
+                    Email = "tim@np.com"
+                };
+
+                var result = await userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    await userManager.AddPasswordAsync(user, password);
+                    await userManager.AddToRoleAsync(user, role2);
+                }
             }
         }
 

@@ -16,6 +16,9 @@ import { ViewChildComponent } from "./view-child/view-child.component";
 import { SantaService } from './services/santaService.service';
 import { DataService } from './shared/dataService';
 
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +29,9 @@ import { DataService } from './shared/dataService';
     FetchDataComponent,
     ListChildrenComponent,
     AddChildComponent,
-    ViewChildComponent
+    ViewChildComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -39,7 +44,9 @@ import { DataService } from './shared/dataService';
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'children', component: ListChildrenComponent },
       { path: 'add-child', component: AddChildComponent },
-      { path: 'view-child', component: ViewChildComponent }  
+      { path: 'view-child', component: ViewChildComponent },
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent }
     ])
   ],
   providers: [SantaService, DataService],

@@ -33,9 +33,9 @@ namespace WebAppAng.Controllers
         {
             var user = new IdentityUser
             {
+                UserName = model.UserName,
                 Email = model.Email,
-                UserName = model.Email,
-                SecurityStamp = Guid.NewGuid().ToString()
+                SecurityStamp = Guid.NewGuid().ToString(),
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)

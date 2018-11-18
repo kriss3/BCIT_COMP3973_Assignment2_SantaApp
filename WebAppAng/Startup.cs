@@ -8,6 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 using WebAppAng.Data;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace WebAppAng
 {
@@ -26,6 +30,41 @@ namespace WebAppAng
             services.AddDbContext<SantaDbContext>(options => 
                             options.UseSqlite(Configuration.GetConnectionString("SantaDbConnection")));
 
+            // Add Cors / this is just declaring Policy
+            services.AddCors(o => o.AddPolicy("SantaPolicy", builder => {
+                builder.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+            }));
+
+            services.AddIdentity<IdentityUser, IdentityRole>(
+                                               option =>
+                                               {
+                                                   option.Password.RequireDigit = false;
+                                                   option.Password.RequiredLength = 6;
+                                                   option.Password.RequireNonAlphanumeric = false;
+                                                   option.Password.RequireUppercase = false;
+                                                   option.Password.RequireLowercase = false;
+                                               }
+                                   ).AddEntityFrameworkStores<SantaDbContext>()
+                                   .AddDefaultTokenProviders();
+
+            services.AddAuthentication(option => {
+                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options => {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = true;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = Configuration["Jwt:Site"],
+                    ValidIssuer = Configuration["Jwt:Site"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SigningKey"]))
+                };
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -37,7 +76,11 @@ namespace WebAppAng
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, 
+                                        IHostingEnvironment env, 
+                                        SantaDbContext ctx,
+                                        RoleManager<IdentityRole> roleManager,
+                                        UserManager<IdentityUser> userManager)
         {
             if (env.IsDevelopment())
             {
@@ -48,6 +91,8 @@ namespace WebAppAng
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+
+            app.UseAuthentication();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -73,7 +118,7 @@ namespace WebAppAng
                 }
             });
 
-            DummyData.Initialize(app);
+            DummyData.Initialize(app, ctx, roleManager, userManager);
         }
     }
 }

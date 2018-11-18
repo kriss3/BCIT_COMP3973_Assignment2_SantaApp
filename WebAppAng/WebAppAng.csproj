@@ -38,13 +38,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\login\login.component.ts" />
+    <None Remove="ClientApp\src\app\Models\authToken.models.ts" />
     <None Remove="ClientApp\src\app\Models\child.models.ts" />
+    <None Remove="ClientApp\src\app\Models\user.models.ts" />
+    <None Remove="ClientApp\src\app\register\register.component.ts" />
     <None Remove="ClientApp\src\app\shared\dataService.ts" />
     <None Remove="ClientApp\src\app\view-child\view-child.component.ts" />
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\login\login.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Models\authToken.models.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\child.models.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Models\user.models.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\register\register.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\dataService.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\view-child\view-child.component.ts" />
   </ItemGroup>

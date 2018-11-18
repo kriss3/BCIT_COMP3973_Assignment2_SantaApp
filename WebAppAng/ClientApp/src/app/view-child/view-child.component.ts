@@ -3,6 +3,10 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 import { SantaService } from '../services/santaService.service';
 import { Router } from "@angular/router";
 
+declare var jquery: any;
+declare var $: any;
+
+
 @Component({
   selector: 'app-view-child',
   templateUrl: './view-child.component.html'
@@ -57,13 +61,7 @@ export class ViewChildComponent implements OnInit {
   onGetLocation() {
     console.log('Calling Bing API');
     alert('Calling BING API to GET MAP');
-    //this._svc.createChild(this.addForm.value)
-    //  .subscribe(data => {
-    //    this.router.navigate(['list-children']);
-    //  },
-    //    error => {
-    //      alert(error);
-    //    });
+
   }
 
 }
