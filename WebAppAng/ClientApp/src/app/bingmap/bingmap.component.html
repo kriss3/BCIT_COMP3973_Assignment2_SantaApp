@@ -1,0 +1,17 @@
+<i class="fa"></i>
+<div id="myMap">
+  <x-map #xmap [Options]="_options" [Box]="_box">
+    <x-map-marker *ngFor="let m of _markers; let i=index"
+
+                  [Latitude]="m.latitude"
+                  [Longitude]="m.longitude"
+                  [Title]="'MARKER 4SANTA'"
+                  [IconInfo]="_iconInfo">
+      <x-info-box [DisableAutoPan]="true" style="width:20px; height:50px"
+                  [Title]="'Info Box'"
+                  [Description]="'Name: ' + fullName ">
+      </x-info-box>
+    </x-map-marker>
+  </x-map>
+ 
+</div>

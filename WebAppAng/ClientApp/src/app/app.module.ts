@@ -7,41 +7,40 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 
 import { ListChildrenComponent } from './list-children/list-children.component';
 import { AddChildComponent } from "./add-child/add-child.component";
 import { ViewChildComponent } from "./view-child/view-child.component";
 import { SantaService } from './services/santaService.service';
-import { DataService } from './shared/dataService';
 
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
+import { BingMapComponent } from './bingmap/bigmap.component';
+
+import { MapModule, BingMapAPILoaderConfig, BingMapAPILoader, WindowRef, DocumentRef, MapAPILoader } from 'angular-maps'
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     ListChildrenComponent,
     AddChildComponent,
     ViewChildComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    BingMapComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    MapModule.forRootBing(),
+
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'children', component: ListChildrenComponent },
       { path: 'add-child', component: AddChildComponent },
       { path: 'view-child', component: ViewChildComponent },
@@ -49,7 +48,15 @@ import { RegisterComponent } from './register/register.component';
       { path: 'register', component: RegisterComponent }
     ])
   ],
-  providers: [SantaService, DataService],
+  providers: [SantaService, {
+    provide: MapAPILoader, deps: [], useFactory: BingMapServiceProviderFactory }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function BingMapServiceProviderFactory() {
+  let bc: BingMapAPILoaderConfig = new BingMapAPILoaderConfig();
+  bc.apiKey = "AqTphCdmSXI_8V-8D2qmRIOcDTguydViea3VQ9gA9gJ_P_kEYp2WBShwR12cPwIX";
+  bc.branch = "experimental";
+  return new BingMapAPILoader(bc, new WindowRef(), new DocumentRef());
+}

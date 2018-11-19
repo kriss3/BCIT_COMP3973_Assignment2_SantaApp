@@ -31,7 +31,6 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/children';
   }
 
-  // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
 
   onSubmit() {
@@ -51,7 +50,11 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['children']);
         },
         error => {
-          alert('Error Loggin In: ' + JSON.stringify(error));
+          alert('Error Loggin In. \nCheck Logs and Try again.');
+          console.log('Error Logging In: ' + JSON.stringify(error));
+          this.router.navigate(['/login']);
+          this.loading = false;
+          this.loginForm.reset();
         });
   }
 }

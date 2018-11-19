@@ -14,7 +14,7 @@
 
     <div class="form-group">
       <label for="birthDate">Birthdate:</label>
-      <input readonly="readonly" type="datetime-local" formControlName="birthDate" placeholder="Birthdate" name="birhtdate" class="form-control" id="birthDate">
+      <input readonly="readonly" type="datetime-local" formControlName="birthDate" placeholder="Birthdate" name="birthDate" class="form-control" id="birthDate">
     </div>
 
     <div class="form-group">
@@ -53,14 +53,17 @@
     </div>
 
     <div class="form-group">
-      <label for="longitude">Is Naughty?</label>
-      <input disabled="disabled" type="checkbox" formControlName="longitude" placeholder="Is Naughty" name="isNaughty" class="form-control" id="longitude">
+      <label for="isNaughty">Is Naughty?</label>
+      <input disabled="disabled" type="checkbox" formControlName="isNaughty" placeholder="Is Naughty" name="isNaughty" class="form-control" id="isNaughty">
     </div>
 
-    <button class="btn btn-success" [disabled]='viewForm.invalid' *ngIf="!btnvisibility" (click)="onGetLocation()">Open Location</button>
+    <!--<button class="btn btn-success" [disabled]='viewForm.invalid' *ngIf="!btnvisibility" (click)="loadMyMap()">Open Location</button>-->
 
     <p>Form value: {{ viewForm.value | json }}</p>
   </form>
+
+ 
+  <bingmap-component></bingmap-component>
 </div>  
 
 

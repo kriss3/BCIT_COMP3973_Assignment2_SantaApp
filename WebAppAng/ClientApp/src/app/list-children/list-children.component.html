@@ -1,12 +1,17 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-lg-12">
+    <div class="col-md-12">
       <div class="jumbotron">
         <h3 id="title">Simple Angular Component to Managet CRUD oprerations for Santa.</h3>
         <p>You are logged as: {{loggedInUser}}</p>
         <p>Sanat's Children Management</p>
-        <button class="btn btn-primary" (click)='addChild()'>Add New Child</button>
+
+        <div class="btn-group">
+          <button class="btn btn-primary btn-block" (click)='addChild()'>Add Child</button><br /><br />
+          <button class="btn btn-primary btn-block" (click)='logout()'>Logout</button>
+        </div>
+        
       </div>
     </div>
   </div>
@@ -45,9 +50,11 @@
           <td>{{c.dateCreated | date: 'yyyy-MM-dd'}}</td>
           <!--<td>{{c.CreatedBy}}</td> -->
           <td>
-            <button (click)="viewChild(c)" class="btn btn-info"> Details</button>
-            <button (click)="deleteChild(c)" class="btn btn-info"> Delete</button>
-            <button (click)="editChild(c)" class="btn btn-info"> Edit</button>
+            
+            <button (click)="viewChild(c)" class="btn btn-info btn-sm">Details</button>
+            <button (click)="editChild(c)" class="btn btn-info btn-sm" *ngIf="isSuperUser">Edit</button>
+            <button (click)="deleteChild(c)" class="btn btn-info btn-sm" *ngIf="isSuperUser">Delete</button>
+            
           </td>
         </tr>
       </tbody>

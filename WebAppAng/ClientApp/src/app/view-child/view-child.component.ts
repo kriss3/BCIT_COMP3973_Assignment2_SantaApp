@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { SantaService } from '../services/santaService.service';
 import { Router } from "@angular/router";
+import { Child } from '../Models/child.models';
 
 declare var jquery: any;
 declare var $: any;
@@ -17,6 +18,11 @@ export class ViewChildComponent implements OnInit {
 
   viewForm: FormGroup;
   btnvisibility: boolean = true;
+  myChild: Child = null;
+
+  lat: number;
+  lng: number;
+  fullName: string;
 
   ngOnInit() {
 
@@ -33,23 +39,38 @@ export class ViewChildComponent implements OnInit {
       latitude: [''],
       longitude: [''],
       isNaughty: [''],
-      dateCreated: [''],
-      createdBy: ['']
+      dateCreated: ['']
     });
-
 
     let childId = localStorage.getItem('viewChildId');
     if (+childId > 0) {
 
-        //this._svc.getChildById(+childId).subscribe(data => {  
-        //  this.addForm.patchValue(data);
-        //})
-
       this._svc.getChildById(+childId)
         .subscribe(data => {
-          this.viewForm.patchValue(data);
+          this.viewForm.patchValue(
+            {
+              firstName: data.firstName,
+              lastName: data.lastName,
+              birthDate: data.birthDate,
+              street: data.street,
+              city: data.city,
+              province: data.province,
+              postalCode: data.postalCode,
+              country: data.country,
+              latitude: data.latitude,
+              longitude: data.longitude,
+              isNaughty: data.isNaughty,
+            });
+
+          this.lat = data.latitude;
+          this.lng = data.longitude;
+          this.fullName = `${data.firstName} ${data.lastName}`;
+          sessionStorage.setItem('lat', `${this.lat}`);
+          sessionStorage.setItem('lng', `${this.lng}`);
+          sessionStorage.setItem('fullName', this.fullName);
+
         });
-        
+
         this.btnvisibility = false;
       }
   }
@@ -58,10 +79,14 @@ export class ViewChildComponent implements OnInit {
   public childFormLabel: string = 'View Child';
   public childformbtn: string = 'Open Location';
 
-  onGetLocation() {
+  loadMyMap() {
     console.log('Calling Bing API');
     alert('Calling BING API to GET MAP');
+    this.loadMap();
+  }
 
+  loadMap() {
+    alert('test');
   }
 
 }

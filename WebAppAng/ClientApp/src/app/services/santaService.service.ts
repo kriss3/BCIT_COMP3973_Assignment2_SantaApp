@@ -42,7 +42,7 @@ export class SantaService {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json').set('Authorization', authToken);
 
-    return this._http.get(url, { headers : headers})
+    return this._http.get<Child>(url, { headers : headers})
       .pipe(
         map((data: Child) => data), 
         catchError(this.handleError<Child>('getChildById'))
@@ -71,7 +71,7 @@ export class SantaService {
 
     return this._http.put(url, _child, {headers: headers})
       .pipe(
-        map((data: Child) => data),
+      map((data: Child) => data),
         catchError(this.handleError<Child>('updateChild'))
       );
   }
@@ -92,21 +92,18 @@ export class SantaService {
 
   login(username: string, password: string) {
 
-    return this._http.post<any>(`${this.authBaseUrl}/login`, { username: username, password: password }, httpOptions )
+    return this._http.post<authToken>(`${this.authBaseUrl}/login`, { username: username, password: password }, httpOptions )
       .pipe(map(authToken => {
-        // login successful if there's a jwt token in the response
-        //if (user && user.token) {
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
-         
-          //localStorage.setItem('currentUser', JSON.stringify(user));
-        //}
 
         sessionStorage.setItem("username", username);
         let myToken = 'Bearer ' + authToken.token;
         sessionStorage.setItem("token", myToken);
-        
-        alert('New Token added to localStorage');
       }));
+  }
+
+  logout() {
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('username');
   }
 
   register(user: User) {
@@ -115,9 +112,7 @@ export class SantaService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
-      
       if (error.status === 401) {
         alert('You are NOT Authorezed. Please, Log in.');
         this._router.navigate(['login']);

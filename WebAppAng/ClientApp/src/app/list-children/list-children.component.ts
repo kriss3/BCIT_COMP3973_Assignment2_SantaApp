@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Child } from "../Models/child.models";
 import { Router } from "@angular/router";
 import { SantaService } from '../services/santaService.service';
-import { DataService } from '../shared/dataService';
-
 
 @Component({
   selector: 'app-listchildren-component',
@@ -14,6 +12,7 @@ export class ListChildrenComponent implements OnInit {
   public myClassMessage = "My Message from Children Component";
   public santaChildren: Child[] = [];
   public loggedInUser: string;
+  public isSuperUser: boolean = false;
 
   constructor(private _svc: SantaService, private router: Router, private data: SantaService) { }  
 
@@ -32,12 +31,20 @@ export class ListChildrenComponent implements OnInit {
     if (myUser === null || myUser === '') {
       return result;
     }
+    if (myUser.toUpperCase() === 'SANTA')
+      this.isSuperUser = true;
     return myUser;
   }
 
   getChildrenPromise(): void {
     this._svc.getChildren()
       .subscribe(data => this.santaChildren = data)
+  }
+
+  logout(): void {
+    alert('about to logout');
+    this._svc.logout();
+    this.router.navigate(['/']);
   }
 
 
