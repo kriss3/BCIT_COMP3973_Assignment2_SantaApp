@@ -1,0 +1,9 @@
+Commands used:
+
+dotnet -ef migrations add 'InitialSantaDbCreate'
+dotnet -ef database update;
+
+I had to dumb db manually (I am using LinqPad);
+Once that was done, I re-ran:
+dotnet -ef database update;
+and run applicaton to seed data;
