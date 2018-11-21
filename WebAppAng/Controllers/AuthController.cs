@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,7 @@ namespace WebAppAng.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("SantaPolicy")]
     public class AuthController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
