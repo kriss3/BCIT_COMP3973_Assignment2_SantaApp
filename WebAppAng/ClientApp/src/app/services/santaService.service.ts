@@ -19,8 +19,8 @@ let httpOptions = {
 export class SantaService {
 
   constructor(private _http: HttpClient, private _router: Router) { }
-  baseUrl: string = 'https://localhost:5001/api/children';
-  authBaseUrl: string = 'https://localhost:5001/api/auth';
+  baseUrl: string = 'https://bcitassignment2.azurewebsites.net/api/children';
+  authBaseUrl: string = 'https://bcitassignment2.azurewebsites.net/api/auth';
   
   getChildren(): Observable<Child[]>  {
     const url = `${this.baseUrl}`;
